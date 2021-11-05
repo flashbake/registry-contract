@@ -3,10 +3,10 @@
 This repository contains an on-chain registry for Flashbake Bakers.
 
 Project structure / TODOs:
-- `.github/`: TODO
-- `smart_contracts/`: Smart contract code
-- `multisig-timelock/`: TODO
+- `.github/`: Continuous integration configuration
 - `migrations/`: TODO
+- `multisig-timelock/`: TODO
+- `smart_contracts/`: Smart contract code
 
 ## Introduction
 
