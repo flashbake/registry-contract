@@ -6,7 +6,7 @@ SMART_PY_CLI_INSTALL_DIR := ~/smartpy-cli/
 # Install smartpy
 install-smartpy:
 	rm -rf $(SMART_PY_CLI_INSTALL_DIR)
-	curl -s https://smartpy.io/releases/20201222-65067da80037a151c726ae887cc2a24d02eca2b0/cli/install.sh | sh -s -- local-install $(SMART_PY_CLI_INSTALL_DIR)
+	curl -s https://smartpy.io/releases/20210929-ec4c2020b1e18201600a732d442303c6830f8995/cli/install.sh | sh -s -- local-install $(SMART_PY_CLI_INSTALL_DIR)
 
 # Compile the Flashbake Registry contract
 compile-registry:
