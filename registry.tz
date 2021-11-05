@@ -1,0 +1,192 @@
+parameter (or (or (string %register) (address %setAdministrator)) (or (mutez %setBondAmount) (unit %unregister)));
+storage   (pair (pair (address %administratorAddress) (mutez %bondAmount)) (pair (big_map %metadata string bytes) (big_map %registry address (pair (string %endpointUrl) (mutez %bondAmount)))));
+code
+  {
+    UNPAIR;     # @parameter : @storage
+    IF_LEFT
+      {
+        IF_LEFT
+          {
+            SWAP;       # @storage : @parameter%register
+            # == register ==
+            # sp.verify(sp.amount == self.data.bondAmount, 'BAD_BOND_AMOUNT') # @storage : @parameter%register
+            DUP;        # @storage : @storage : @parameter%register
+            DUG 2;      # @storage : @parameter%register : @storage
+            CAR;        # pair (address %administratorAddress) (mutez %bondAmount) : @parameter%register : @storage
+            CDR;        # mutez : @parameter%register : @storage
+            AMOUNT;     # @amount : mutez : @parameter%register : @storage
+            COMPARE;    # int : @parameter%register : @storage
+            EQ;         # bool : @parameter%register : @storage
+            IF
+              {}
+              {
+                PUSH string "BAD_BOND_AMOUNT"; # string : @parameter%register : @storage
+                FAILWITH;   # FAILED
+              }; # @parameter%register : @storage
+            SWAP;       # @storage : @parameter%register
+            # sp.verify(~ (self.data.registry.contains(sp.sender)), 'BAD_PARAM') # @storage : @parameter%register
+            DUP;        # @storage : @storage : @parameter%register
+            DUG 2;      # @storage : @parameter%register : @storage
+            GET 4;      # big_map address (pair (string %endpointUrl) (mutez %bondAmount)) : @parameter%register : @storage
+            SENDER;     # @sender : big_map address (pair (string %endpointUrl) (mutez %bondAmount)) : @parameter%register : @storage
+            MEM;        # bool : @parameter%register : @storage
+            IF
+              {
+                PUSH string "BAD_PARAM"; # string : @parameter%register : @storage
+                FAILWITH;   # FAILED
+              }
+              {}; # @parameter%register : @storage
+            SWAP;       # @storage : @parameter%register
+            # self.data.registry[sp.sender] = sp.record(endpointUrl = params.endpointUrl, bondAmount = sp.amount) # @storage : @parameter%register
+            DUP;        # @storage : @storage : @parameter%register
+            GET 4;      # big_map address (pair (string %endpointUrl) (mutez %bondAmount)) : @storage : @parameter%register
+            AMOUNT;     # @amount : big_map address (pair (string %endpointUrl) (mutez %bondAmount)) : @storage : @parameter%register
+            DIG 3;      # @parameter%register : @amount : big_map address (pair (string %endpointUrl) (mutez %bondAmount)) : @storage
+            PAIR;       # pair @parameter%register @amount : big_map address (pair (string %endpointUrl) (mutez %bondAmount)) : @storage
+            SOME;       # option (pair @parameter%register @amount) : big_map address (pair (string %endpointUrl) (mutez %bondAmount)) : @storage
+            SENDER;     # @sender : option (pair @parameter%register @amount) : big_map address (pair (string %endpointUrl) (mutez %bondAmount)) : @storage
+            UPDATE;     # big_map address (pair string mutez) : @storage
+            UPDATE 4;   # @storage
+          }
+          {
+            SWAP;       # @storage : @parameter%setAdministrator
+            # == setAdministrator ==
+            # sp.verify(sp.sender == self.data.administratorAddress, 'BAD_SENDER') # @storage : @parameter%setAdministrator
+            DUP;        # @storage : @storage : @parameter%setAdministrator
+            DUG 2;      # @storage : @parameter%setAdministrator : @storage
+            CAR;        # pair (address %administratorAddress) (mutez %bondAmount) : @parameter%setAdministrator : @storage
+            CAR;        # address : @parameter%setAdministrator : @storage
+            SENDER;     # @sender : address : @parameter%setAdministrator : @storage
+            COMPARE;    # int : @parameter%setAdministrator : @storage
+            EQ;         # bool : @parameter%setAdministrator : @storage
+            IF
+              {}
+              {
+                PUSH string "BAD_SENDER"; # string : @parameter%setAdministrator : @storage
+                FAILWITH;   # FAILED
+              }; # @parameter%setAdministrator : @storage
+            # sp.verify(sp.amount == sp.tez(0), 'AMOUNT_NOT_ALLOWED') # @parameter%setAdministrator : @storage
+            PUSH mutez 0; # mutez : @parameter%setAdministrator : @storage
+            AMOUNT;     # @amount : mutez : @parameter%setAdministrator : @storage
+            COMPARE;    # int : @parameter%setAdministrator : @storage
+            EQ;         # bool : @parameter%setAdministrator : @storage
+            IF
+              {}
+              {
+                PUSH string "AMOUNT_NOT_ALLOWED"; # string : @parameter%setAdministrator : @storage
+                FAILWITH;   # FAILED
+              }; # @parameter%setAdministrator : @storage
+            SWAP;       # @storage : @parameter%setAdministrator
+            # self.data.administratorAddress = params.newAdministratorAddress # @storage : @parameter%setAdministrator
+            UNPAIR;     # pair (address %administratorAddress) (mutez %bondAmount) : pair (big_map %metadata string bytes) (big_map %registry address (pair (string %endpointUrl) (mutez %bondAmount))) : @parameter%setAdministrator
+            CDR;        # mutez : pair (big_map %metadata string bytes) (big_map %registry address (pair (string %endpointUrl) (mutez %bondAmount))) : @parameter%setAdministrator
+            DIG 2;      # @parameter%setAdministrator : mutez : pair (big_map %metadata string bytes) (big_map %registry address (pair (string %endpointUrl) (mutez %bondAmount)))
+            PAIR;       # pair @parameter%setAdministrator mutez : pair (big_map %metadata string bytes) (big_map %registry address (pair (string %endpointUrl) (mutez %bondAmount)))
+            PAIR;       # pair (pair @parameter%setAdministrator mutez) (pair (big_map %metadata string bytes) (big_map %registry address (pair (string %endpointUrl) (mutez %bondAmount))))
+          }; # pair (pair address mutez) (pair (big_map %metadata string bytes) (big_map %registry address (pair (string %endpointUrl) (mutez %bondAmount))))
+        NIL operation; # list operation : pair (pair address mutez) (pair (big_map %metadata string bytes) (big_map %registry address (pair (string %endpointUrl) (mutez %bondAmount))))
+      }
+      {
+        IF_LEFT
+          {
+            SWAP;       # @storage : @parameter%setBondAmount
+            # == setBondAmount ==
+            # sp.verify(sp.sender == self.data.administratorAddress, 'BAD_SENDER') # @storage : @parameter%setBondAmount
+            DUP;        # @storage : @storage : @parameter%setBondAmount
+            DUG 2;      # @storage : @parameter%setBondAmount : @storage
+            CAR;        # pair (address %administratorAddress) (mutez %bondAmount) : @parameter%setBondAmount : @storage
+            CAR;        # address : @parameter%setBondAmount : @storage
+            SENDER;     # @sender : address : @parameter%setBondAmount : @storage
+            COMPARE;    # int : @parameter%setBondAmount : @storage
+            EQ;         # bool : @parameter%setBondAmount : @storage
+            IF
+              {}
+              {
+                PUSH string "BAD_SENDER"; # string : @parameter%setBondAmount : @storage
+                FAILWITH;   # FAILED
+              }; # @parameter%setBondAmount : @storage
+            # sp.verify(sp.amount == sp.tez(0), 'AMOUNT_NOT_ALLOWED') # @parameter%setBondAmount : @storage
+            PUSH mutez 0; # mutez : @parameter%setBondAmount : @storage
+            AMOUNT;     # @amount : mutez : @parameter%setBondAmount : @storage
+            COMPARE;    # int : @parameter%setBondAmount : @storage
+            EQ;         # bool : @parameter%setBondAmount : @storage
+            IF
+              {}
+              {
+                PUSH string "AMOUNT_NOT_ALLOWED"; # string : @parameter%setBondAmount : @storage
+                FAILWITH;   # FAILED
+              }; # @parameter%setBondAmount : @storage
+            SWAP;       # @storage : @parameter%setBondAmount
+            # self.data.bondAmount = params.newBondAmount # @storage : @parameter%setBondAmount
+            UNPAIR;     # pair (address %administratorAddress) (mutez %bondAmount) : pair (big_map %metadata string bytes) (big_map %registry address (pair (string %endpointUrl) (mutez %bondAmount))) : @parameter%setBondAmount
+            CAR;        # address : pair (big_map %metadata string bytes) (big_map %registry address (pair (string %endpointUrl) (mutez %bondAmount))) : @parameter%setBondAmount
+            DIG 2;      # @parameter%setBondAmount : address : pair (big_map %metadata string bytes) (big_map %registry address (pair (string %endpointUrl) (mutez %bondAmount)))
+            SWAP;       # address : @parameter%setBondAmount : pair (big_map %metadata string bytes) (big_map %registry address (pair (string %endpointUrl) (mutez %bondAmount)))
+            PAIR;       # pair address @parameter%setBondAmount : pair (big_map %metadata string bytes) (big_map %registry address (pair (string %endpointUrl) (mutez %bondAmount)))
+            PAIR;       # pair (pair address @parameter%setBondAmount) (pair (big_map %metadata string bytes) (big_map %registry address (pair (string %endpointUrl) (mutez %bondAmount))))
+            NIL operation; # list operation : pair (pair address @parameter%setBondAmount) (pair (big_map %metadata string bytes) (big_map %registry address (pair (string %endpointUrl) (mutez %bondAmount))))
+          }
+          {
+            DROP;       # @storage
+            # == unregister ==
+            # sp.verify(sp.amount == sp.tez(0), 'AMOUNT_NOT_ALLOWED') # @storage
+            PUSH mutez 0; # mutez : @storage
+            AMOUNT;     # @amount : mutez : @storage
+            COMPARE;    # int : @storage
+            EQ;         # bool : @storage
+            IF
+              {}
+              {
+                PUSH string "AMOUNT_NOT_ALLOWED"; # string : @storage
+                FAILWITH;   # FAILED
+              }; # @storage
+            # sp.verify(self.data.registry.contains(sp.sender), 'BAD_PARAM') # @storage
+            DUP;        # @storage : @storage
+            GET 4;      # big_map address (pair (string %endpointUrl) (mutez %bondAmount)) : @storage
+            SENDER;     # @sender : big_map address (pair (string %endpointUrl) (mutez %bondAmount)) : @storage
+            MEM;        # bool : @storage
+            IF
+              {}
+              {
+                PUSH string "BAD_PARAM"; # string : @storage
+                FAILWITH;   # FAILED
+              }; # @storage
+            # sp.send(sp.sender, self.data.registry[sp.sender].bondAmount) # @storage
+            NIL operation; # list operation : @storage
+            SENDER;     # @sender : list operation : @storage
+            CONTRACT unit; # option (contract unit) : list operation : @storage
+            IF_NONE
+              {
+                PUSH int 137; # int : list operation : @storage
+                FAILWITH;   # FAILED
+              }
+              {}; # @some : list operation : @storage
+            DUP 3;      # @storage : @some : list operation : @storage
+            GET 4;      # big_map address (pair (string %endpointUrl) (mutez %bondAmount)) : @some : list operation : @storage
+            SENDER;     # @sender : big_map address (pair (string %endpointUrl) (mutez %bondAmount)) : @some : list operation : @storage
+            GET;        # option (pair (string %endpointUrl) (mutez %bondAmount)) : @some : list operation : @storage
+            IF_NONE
+              {
+                PUSH int 137; # int : @some : list operation : @storage
+                FAILWITH;   # FAILED
+              }
+              {
+                # of_some: Get-item:137 # @some : @some : list operation : @storage
+              }; # @some : @some : list operation : @storage
+            CDR;        # mutez : @some : list operation : @storage
+            UNIT;       # unit : mutez : @some : list operation : @storage
+            TRANSFER_TOKENS; # operation : list operation : @storage
+            CONS;       # list operation : @storage
+            SWAP;       # @storage : list operation
+            # del self.data.registry[sp.sender] # @storage : list operation
+            DUP;        # @storage : @storage : list operation
+            GET 4;      # big_map address (pair (string %endpointUrl) (mutez %bondAmount)) : @storage : list operation
+            NONE (pair string mutez); # option (pair string mutez) : big_map address (pair (string %endpointUrl) (mutez %bondAmount)) : @storage : list operation
+            SENDER;     # @sender : option (pair string mutez) : big_map address (pair (string %endpointUrl) (mutez %bondAmount)) : @storage : list operation
+            UPDATE;     # big_map address (pair string mutez) : @storage : list operation
+            UPDATE 4;   # @storage : list operation
+            SWAP;       # list operation : @storage
+          }; # list operation : pair (pair address mutez) (pair (big_map %metadata string bytes) (big_map %registry address (pair (string %endpointUrl) (mutez %bondAmount))))
+      }; # list operation : pair (pair address mutez) (pair (big_map %metadata string bytes) (big_map %registry address (pair (string %endpointUrl) (mutez %bondAmount))))
+    PAIR;       # pair (list operation) (pair (pair address mutez) (pair (big_map %metadata string bytes) (big_map %registry address (pair (string %endpointUrl) (mutez %bondAmount)))))
+  };
