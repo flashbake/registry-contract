@@ -1,0 +1,21 @@
+name: Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test_and_compile_contracts:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+    - uses: actions/setup-python@v2
+    - name: "Install SmartPy"
+      run: make install-smartpy
+    - name: "Test Contracts"
+      run: make test-registry
+    - name: "Compile Contracts"
+      run: make compile-registry
