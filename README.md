@@ -8,6 +8,9 @@ Project structure / TODOs:
 - `multisig-timelock/`: TODO
 - `smart_contracts/`: Smart contract code
 
+Additional TODOs:
+- Fix contract metadata fields
+
 ## Introduction
 
 To register for Flashbake, we implement an on-chain registration mechanism where bakers voluntarily submit their endpoint URL. This contract allows bakers to publicly advertise their Flashbake compatibility.
