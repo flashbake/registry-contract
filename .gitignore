@@ -1,1 +1,10 @@
+# Smart Contract build artifacts
 smartpy_out
+
+# NPM build artifacts
+node_modules
+build/
+
+# Migration Artifacts
+migrations/*/src/config.ts
+migrations/*/deploy-data.json
