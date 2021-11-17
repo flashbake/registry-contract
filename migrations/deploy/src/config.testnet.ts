@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js'
 
 export const NETWORK_CONFIG: NetworkConfig = {
   name: 'Granada-Testnet',
-  tezosNodeUrl: 'https://granadanet.smartpy.io/',
+  tezosNodeUrl: 'rpc.granadanet.teztnets.xyz',
   betterCallDevUrl: 'https://api.better-call.dev/v1',
   requiredConfirmations: 3,
   maxConfirmationPollingRetries: 10,

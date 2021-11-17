@@ -1,2 +1,3 @@
 smartpy_out
 migrations/*/src/config.ts
+node_modules
