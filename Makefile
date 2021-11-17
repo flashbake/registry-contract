@@ -12,7 +12,7 @@ install-smartpy:
 compile-registry:
 	$(SMART_PY_CLI) compile $(REGISTRY_CONTRACT) $(OUT_DIR)
 	cp $(OUT_DIR)/registry/step_000_cont_0_contract.tz smart_contracts/registry.tz
-#	rm -rf $(OUT_DIR)
+	rm -rf $(OUT_DIR)
 
 # Test the Flashbake Registry contract
 test-registry:
