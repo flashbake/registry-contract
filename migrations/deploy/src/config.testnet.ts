@@ -8,7 +8,7 @@ export const NETWORK_CONFIG: NetworkConfig = {
   betterCallDevUrl: 'https://api.better-call.dev/v1',
   requiredConfirmations: 3,
   maxConfirmationPollingRetries: 10,
-  operationDelaySecs: 30,
+  operationDelaySecs: 120, // Testnet seems to sporadically produce blocks
 
   // The properties below don't matter and is an artifact of using Hover Labs' deploy library
   // TODO(keefertaylor): Generalize this in the @hover-labs/tezos-utils packagage and remove these.
