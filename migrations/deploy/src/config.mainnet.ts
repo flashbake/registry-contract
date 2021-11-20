@@ -11,7 +11,6 @@ export const NETWORK_CONFIG: NetworkConfig = {
   operationDelaySecs: 45,
 }
 
-// TODO(keefertaylor): Configure this migration.
 export const MIGRATION_CONFIG = {
   // Initial Bond Amount
   bondAmountMutez: new BigNumber(50).times(new BigNumber(CONSTANTS.XTZ_MANTISSA)), // 50 XTZ
