@@ -2,7 +2,9 @@
 
 This deploys a Flashbake Registry contract.
 
-Usage:
+## Usage
+
+Pre-reqs:
 ```
 # Install typescipt
 $ npm i -g typescript
@@ -10,6 +12,12 @@ $ npm i -g typescript
 # Install deps
 $ npm i
 
+# Get SmartPy
+sh <(curl -s https://smartpy.io/releases/20210929-ec4c2020b1e18201600a732d442303c6830f8995/cli/install.sh )
+```
+
+Prepare a deploy
+```
 # Remove any stale artifacts
 rm -rf src/config.ts deploy-data.json
 
@@ -22,7 +30,18 @@ $ cp src/config.testnet.ts src/config.ts
 
 # Run migration
 $ ts-node src/flows/migrate.ts
+```
 
+Validations (testnet and mainnet):
+```
 # Validate storage applied as expected
 $ ts-node src/verifications/verify-storage.ts
+```
+
+Validations (testnet only):
+```
+# Validate that the administrator can admin the registry.
+# NOTE: this step will change bondAmount so it is destructive.
+# NOTE: this step will not work on mainnet, since the contract will require many signatures.
+$ ts-node src/verifications/verify-administrator.ts
 ```
