@@ -29,7 +29,8 @@ const main = async () => {
   await validateStorageValue(multisigContractAddress, 'timelockSeconds', MIGRATION_CONFIG.timelockSeconds, tezos)
 
   console.log("   / passed")
-
+  console.log("")
+  
   // Registry
   // 1) administratorAddress should be the multisig
   // 2) bondAmount should match the MIGRATION_CONFIG
@@ -44,6 +45,7 @@ const main = async () => {
   await validateMetadata(registryContractAddress, tezos)
 
   console.log("   / passed")
+  console.log("")
 
   console.log("All tests pass!")
   console.log("")
