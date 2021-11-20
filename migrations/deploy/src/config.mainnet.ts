@@ -9,13 +9,6 @@ export const NETWORK_CONFIG: NetworkConfig = {
   requiredConfirmations: 3,
   maxConfirmationPollingRetries: 10,
   operationDelaySecs: 45,
-
-  // The properties below don't matter and is an artifact of using Hover Labs' deploy library
-  // TODO(keefertaylor): Generalize this in the @hover-labs/tezos-utils packagage and remove these.
-  contracts: CONTRACTS.SANDBOX,
-  escrowAmount: 3000000000000000000000,
-  governanceVoteLength: 15,
-  governanceTimelockLength: 11,
 }
 
 // TODO(keefertaylor): Configure this migration.

@@ -4,18 +4,11 @@ import BigNumber from 'bignumber.js'
 
 export const NETWORK_CONFIG: NetworkConfig = {
   name: 'Granada-Testnet',
-  tezosNodeUrl: 'rpc.granadanet.teztnets.xyz',
+  tezosNodeUrl: 'https://rpc.granadanet.teztnets.xyz',
   betterCallDevUrl: 'https://api.better-call.dev/v1',
   requiredConfirmations: 3,
   maxConfirmationPollingRetries: 10,
   operationDelaySecs: 120, // Testnet seems to sporadically produce blocks
-
-  // The properties below don't matter and is an artifact of using Hover Labs' deploy library
-  // TODO(keefertaylor): Generalize this in the @hover-labs/tezos-utils packagage and remove these.
-  contracts: CONTRACTS.SANDBOX,
-  escrowAmount: 3000000000000000000000,
-  governanceVoteLength: 15,
-  governanceTimelockLength: 11,
 }
 
 // Documentation for keys below: https://tezos.gitlab.io/flextesa/
