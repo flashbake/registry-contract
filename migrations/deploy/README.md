@@ -22,4 +22,7 @@ $ cp src/config.testnet.ts src/config.ts
 
 # Run migration
 $ ts-node src/flows/migrate.ts
+
+# Validate storage applied as expected
+$ ts-node src/verifications/verify-storage.ts
 ```

@@ -15,7 +15,7 @@
     "typescript": "^4.4.4"
   },
   "dependencies": {
-    "@hover-labs/tezos-utils": "^0.0.12",
+    "@hover-labs/tezos-utils": "^0.0.13",
     "@taquito/taquito": "^10.2.1",
     "bignumber.js": "^9.0.1"
   }

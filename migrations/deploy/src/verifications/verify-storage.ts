@@ -2,6 +2,7 @@ import {
   ContractOriginationResult,
   fetchFromCache,
   getTezos,
+  validateMetadata,
   validateStorageValue
 } from "@hover-labs/tezos-utils"
 import CACHE_KEYS from '../cache-keys'
@@ -17,22 +18,32 @@ const main = async () => {
   const registryContractAddress = (await fetchFromCache(CACHE_KEYS.REGISTRY_DEPLOY) as ContractOriginationResult).contractAddress
 
   // Multisig
+  // 1) operationId should start at 0
+  // 2) threshold, signers and timelockSeconds shoudl match the MIGRATION_CONFIG
   console.log("Verifying multisig storage...")
-  validateStorageValue(multisigContractAddress, 'operationId', 0, tezos)
-  validateStorageValue(multisigContractAddress, 'threshold', MIGRATION_CONFIG.threshold, tezos)
-  validateStorageValue(multisigContractAddress, 'signers', MIGRATION_CONFIG.publicKeys, tezos)
 
-  const contract = await tezos.contract.at(multisigContractAddress)
-  const storage: any = await contract.storage()
-  const signers = storage.signers
-  console.log(JSON.stringify(signers))
+  await validateStorageValue(multisigContractAddress, 'operationId', 0, tezos)
+
+  await validateStorageValue(multisigContractAddress, 'threshold', MIGRATION_CONFIG.threshold, tezos)
+  await validateStorageValue(multisigContractAddress, 'signers', MIGRATION_CONFIG.publicKeys, tezos)
+  await validateStorageValue(multisigContractAddress, 'timelockSeconds', MIGRATION_CONFIG.timelockSeconds, tezos)
 
   console.log("   / passed")
 
   // Registry
+  // 1) administratorAddress should be the multisig
+  // 2) bondAmount should match the MIGRATION_CONFIG
+  // 3) validate metadata is parseable and print to screen.
   console.log("Verifying multisig storage...")
-  console.log("   / passed")
 
+  await validateStorageValue(registryContractAddress, 'administratorAddress', multisigContractAddress, tezos)
+
+  await validateStorageValue(registryContractAddress, 'bondAmount', MIGRATION_CONFIG.bondAmountMutez, tezos)
+
+  console.log("")
+  await validateMetadata(registryContractAddress, tezos)
+
+  console.log("   / passed")
 
   console.log("All tests pass!")
   console.log("")
