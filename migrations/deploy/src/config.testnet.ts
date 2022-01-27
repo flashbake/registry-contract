@@ -1,10 +1,14 @@
 import { NetworkConfig, CONSTANTS } from '@hover-labs/tezos-utils'
-import { CONTRACTS } from '@hover-labs/kolibri-js'
 import BigNumber from 'bignumber.js'
+
+export type InitialRegistryData = {
+  privateKey: string
+  endpoint: string
+}
 
 export const NETWORK_CONFIG: NetworkConfig = {
   name: 'Granada-Testnet',
-  tezosNodeUrl: 'https://rpc.granadanet.teztnets.xyz',
+  tezosNodeUrl: 'https://hangzhounet.smartpy.io/',
   betterCallDevUrl: 'https://api.better-call.dev/v1',
   requiredConfirmations: 3,
   maxConfirmationPollingRetries: 10,
@@ -22,4 +26,16 @@ export const MIGRATION_CONFIG = {
   ],
   threshold: 1,
   timelockSeconds: 0,
+
+  // Initial Registry Data
+  initialRegistryData: [
+    {
+      privateKey: "edsk34DuVDY1wgvYGTLJpUZj4xDrJPiMzMXc7YoKkNXRYETtDHgocm",
+      endpoint: "http://tezos-baking-node-0.tezos-baking-node:11732/flashbake/bundle"
+    },
+    {
+      privateKey: "edsk3tJdasZU4x6xtsHuim1e5uamNUyTpHnhJtmbRm4nVmxRFZN8Lt",
+      endpoint: "http://tezos-baking-node-1.tezos-baking-node:11732/flashbake/bundle"
+    }
+  ]
 }
