@@ -21,6 +21,8 @@ type Script = {
   code: Array<object>
 }
 
+// Directory to write artifacts to
+const DIR = './artifacts'
 
 const main = async () => {
   console.log("Exporting contract state...")
@@ -42,7 +44,7 @@ const main = async () => {
     script: await getScript(registryContractAddress, NETWORK_CONFIG),
     storage: await getStorage(registryContractAddress, NETWORK_CONFIG)
   }
-  const registryFileName = 'registry.json'
+  const registryFileName = `${DIR}/registry.json`
   fs.writeFileSync(registryFileName, JSON.stringify(registryContractData))
   console.log(`...Wrote state to ${registryFileName}`)
   console.log(``)
@@ -57,7 +59,7 @@ const main = async () => {
     script: await getScript(multisigContractAddress, NETWORK_CONFIG),
     storage: await getStorage(multisigContractAddress, NETWORK_CONFIG)
   }
-  const multisigFileName = 'multisig.json'
+  const multisigFileName = `${DIR}/multisig.json`
   fs.writeFileSync(multisigFileName, JSON.stringify(multisigContractData))
   console.log(`...Wrote state to ${multisigFileName}`)
   console.log(``)
@@ -67,7 +69,7 @@ const main = async () => {
   const cacheData: any = JSON.parse(fs.readFileSync('deploy-data.json', 'utf-8'))
   cacheData[CACHE_KEYS.MULTISIG_DEPLOY].contractAddress = EXPECTED_MULTISIG_ADDRESS
   cacheData[CACHE_KEYS.REGISTRY_DEPLOY].contractAddress = EXPECTED_REGISTRY_ADDRESS
-  const swizzledCacheFileName = 'k8-deploy-data.json'
+  const swizzledCacheFileName = `${DIR}/k8-deploy-data.json`
   fs.writeFileSync(swizzledCacheFileName, JSON.stringify(cacheData))
   console.log(`...Wrote modified cache to ${swizzledCacheFileName}`)
   console.log("")

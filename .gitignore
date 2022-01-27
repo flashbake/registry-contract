@@ -8,6 +8,3 @@ build/
 # Migration Artifacts
 migrations/*/src/config.ts
 migrations/*/deploy-data.json
-
-# Exported contracts
-migrations/*/.json
