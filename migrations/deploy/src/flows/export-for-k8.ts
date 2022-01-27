@@ -13,12 +13,12 @@ type k8Config = {
   amount: string,
   delegate: string | null,
   script: Script
-  storage: object
 }
 
 // Script of a conttract.
 type Script = {
   code: Array<object>
+  strorage: object
 }
 
 // Directory to write artifacts to
@@ -37,12 +37,11 @@ const main = async () => {
   // Get registry contract data
   console.log(`...Exporting state of Registry contract at ${registryContractAddress}`)
   const registryBalance = await tezos.tz.getBalance(registryContractAddress)
-  const registryDelegate = await tezos.tz.getDelegate(registryContractAddress)
+  const registryDelegate = await tezos.tz.getDelegate(registryContractAddress) ?? ""
   const registryContractData: k8Config = {
     amount: registryBalance.toFixed(),
     delegate: registryDelegate,
     script: await getScript(registryContractAddress, NETWORK_CONFIG),
-    storage: await getStorage(registryContractAddress, NETWORK_CONFIG)
   }
   const registryFileName = `${DIR}/registry.json`
   fs.writeFileSync(registryFileName, JSON.stringify(registryContractData))
@@ -52,12 +51,11 @@ const main = async () => {
   // Get registry contract data
   console.log(`...Exporting state of Multisig contract at ${multisigContractAddress}`)
   const multisigBalance = await tezos.tz.getBalance(multisigContractAddress)
-  const multisigDelegate = await tezos.tz.getDelegate(multisigContractAddress)
+  const multisigDelegate = await tezos.tz.getDelegate(multisigContractAddress) ?? ""
   const multisigContractData: k8Config = {
     amount: multisigBalance.toFixed(),
     delegate: multisigDelegate,
     script: await getScript(multisigContractAddress, NETWORK_CONFIG),
-    storage: await getStorage(multisigContractAddress, NETWORK_CONFIG)
   }
   const multisigFileName = `${DIR}/multisig.json`
   fs.writeFileSync(multisigFileName, JSON.stringify(multisigContractData))
@@ -79,11 +77,6 @@ const main = async () => {
 
 const getScript = async (contractAddress: string, networkConfig: NetworkConfig): Promise<Script> => {
   const url = `${networkConfig.tezosNodeUrl}/chains/main/blocks/head/context/contracts/${contractAddress}/script`
-  return (await axios.get(url)).data
-}
-
-const getStorage = async (contractAddress: string, networkConfig: NetworkConfig): Promise<object> => {
-  const url = `${networkConfig.tezosNodeUrl}/chains/main/blocks/head/context/contracts/${contractAddress}/storage`
   return (await axios.get(url)).data
 }
 
