@@ -37,7 +37,8 @@ const main = async () => {
   // Get registry contract data
   console.log(`...Exporting state of Registry contract at ${registryContractAddress}`)
   const registryBalance = await tezos.tz.getBalance(registryContractAddress)
-  const registryDelegate = await tezos.tz.getDelegate(registryContractAddress) ?? ""
+  // TODO(keefertaylor): Determine how to handle the null case.
+  const registryDelegate = await tezos.tz.getDelegate(registryContractAddress) ?? "tz1THLWsNuricp4y6fCCXJk5pYazGY1e7vGc"
   const registryContractData: k8Config = {
     amount: registryBalance.toFixed(),
     delegate: registryDelegate,
@@ -51,7 +52,8 @@ const main = async () => {
   // Get registry contract data
   console.log(`...Exporting state of Multisig contract at ${multisigContractAddress}`)
   const multisigBalance = await tezos.tz.getBalance(multisigContractAddress)
-  const multisigDelegate = await tezos.tz.getDelegate(multisigContractAddress) ?? ""
+  // TODO(keefertaylor): Determine how to handle the null case.
+  const multisigDelegate = await tezos.tz.getDelegate(multisigContractAddress) ?? "tz1THLWsNuricp4y6fCCXJk5pYazGY1e7vGc"
   const multisigContractData: k8Config = {
     amount: multisigBalance.toFixed(),
     delegate: multisigDelegate,
@@ -77,7 +79,14 @@ const main = async () => {
 
 const getScript = async (contractAddress: string, networkConfig: NetworkConfig): Promise<Script> => {
   const url = `${networkConfig.tezosNodeUrl}/chains/main/blocks/head/context/contracts/${contractAddress}/script`
-  return (await axios.get(url)).data
+  const nodeData = (await axios.get(url)).data
+
+  const richStorageURL = `https://api.better-call.dev/v1/contract/hangzhou2net/${contractAddress}/storage/rich`
+  const storageData = (await axios.get(richStorageURL)).data
+
+  nodeData.storage = storageData
+
+  return nodeData
 }
 
 main()
