@@ -5,8 +5,8 @@ import axios from 'axios'
 import fs from 'fs'
 
 // Expected addresses of contracts in K8
-const EXPECTED_MULTISIG_ADDRESS = 'MULTISIG_ADDR'
-const EXPECTED_REGISTRY_ADDRESS = 'REGISTRY_ADDR'
+const EXPECTED_MULTISIG_ADDRESS = 'KT1CSKPf2jeLpMmrgKquN2bCjBTkAcAdRVDy'
+const EXPECTED_REGISTRY_ADDRESS = 'KT1QuofAgnsWffHzLA7D78rxytJruGHDe7XG'
 
 // Configuration for a K8 contract
 type k8Config = {
