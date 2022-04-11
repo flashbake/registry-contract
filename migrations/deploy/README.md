@@ -13,7 +13,7 @@ $ npm i -g typescript
 $ npm i
 
 # Get SmartPy
-sh <(curl -s https://smartpy.io/releases/20210929-ec4c2020b1e18201600a732d442303c6830f8995/cli/install.sh )
+sh <(curl -s https://smartpy.io/releases/20220405-79018120fafa35774b674ec4de0aebd19409219d/cli/install.sh )
 ```
 
 Prepare a deploy
