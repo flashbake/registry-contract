@@ -19,6 +19,7 @@
     "@taquito/signer": "^11.0.1",
     "@taquito/taquito": "^11.0.1",
     "axios": "^0.25.0",
-    "bignumber.js": "^9.0.1"
+    "bignumber.js": "^9.0.1",
+    "ts-node": "^10.7.0"
   }
 }
