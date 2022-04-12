@@ -81,7 +81,7 @@ const getScript = async (contractAddress: string, networkConfig: NetworkConfig):
   const url = `${networkConfig.tezosNodeUrl}/chains/main/blocks/head/context/contracts/${contractAddress}/script`
   const nodeData = (await axios.get(url)).data
 
-  const richStorageURL = `https://api.better-call.dev/v1/contract/hangzhou2net/${contractAddress}/storage/rich`
+  const richStorageURL = `https://api.better-call.dev/v1/contract/ithacanet/${contractAddress}/storage/rich`
   const storageData = (await axios.get(richStorageURL)).data
 
   nodeData.storage = storageData

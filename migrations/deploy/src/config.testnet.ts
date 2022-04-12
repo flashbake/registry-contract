@@ -8,7 +8,7 @@ export type InitialRegistryData = {
 
 export const NETWORK_CONFIG: NetworkConfig = {
   name: 'Granada-Testnet',
-  tezosNodeUrl: 'https://hangzhounet.smartpy.io/',
+  tezosNodeUrl: 'https://rpc.ithacanet.teztnets.xyz/',
   betterCallDevUrl: 'https://api.better-call.dev/v1',
   requiredConfirmations: 3,
   maxConfirmationPollingRetries: 10,
@@ -30,12 +30,14 @@ export const MIGRATION_CONFIG = {
   // Initial Registry Data
   initialRegistryData: [
     {
-      privateKey: "edsk34DuVDY1wgvYGTLJpUZj4xDrJPiMzMXc7YoKkNXRYETtDHgocm",
-      endpoint: "http://tezos-baking-node-0.tezos-baking-node:11732/flashbake/bundle"
+      //# tz1fboti4soXCzGKXK5WfEEpHxPi59WoRoQY
+      privateKey: "edsk3E2YCb56fN9TiHL5JRR6xNXrBcWt35fSSEmz3Qh2KR9CgjJD1s",
+      endpoint: "http://flashbake-baker-0.flashbake-baker:11732/flashbake/bundle"
     },
     {
-      privateKey: "edsk3tJdasZU4x6xtsHuim1e5uamNUyTpHnhJtmbRm4nVmxRFZN8Lt",
-      endpoint: "http://tezos-baking-node-1.tezos-baking-node:11732/flashbake/bundle"
+      // tz1fb1RzVWyrkPb6BBWR7D1hf3GyWzGifraf
+      privateKey: "edsk2iAy5Ldv4pSGMa6xhfZpteYrbVVNrUqeQRW2wQuVFCdeovGWNy",
+      endpoint: "http://flashbake-baker-1.flashbake-baker:11732/flashbake/bundle"
     }
   ]
 }
