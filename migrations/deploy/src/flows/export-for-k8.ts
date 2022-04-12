@@ -38,7 +38,7 @@ const main = async () => {
   console.log(`...Exporting state of Registry contract at ${registryContractAddress}`)
   const registryBalance = await tezos.tz.getBalance(registryContractAddress)
   // TODO(keefertaylor): Determine how to handle the null case.
-  const registryDelegate = await tezos.tz.getDelegate(registryContractAddress) ?? "tz1THLWsNuricp4y6fCCXJk5pYazGY1e7vGc"
+  const registryDelegate = await tezos.tz.getDelegate(registryContractAddress) ?? "tz1fboti4soXCzGKXK5WfEEpHxPi59WoRoQY"
   const registryContractData: k8Config = {
     amount: registryBalance.toFixed(),
     delegate: registryDelegate,
@@ -53,7 +53,7 @@ const main = async () => {
   console.log(`...Exporting state of Multisig contract at ${multisigContractAddress}`)
   const multisigBalance = await tezos.tz.getBalance(multisigContractAddress)
   // TODO(keefertaylor): Determine how to handle the null case.
-  const multisigDelegate = await tezos.tz.getDelegate(multisigContractAddress) ?? "tz1THLWsNuricp4y6fCCXJk5pYazGY1e7vGc"
+  const multisigDelegate = await tezos.tz.getDelegate(multisigContractAddress) ?? "tz1fboti4soXCzGKXK5WfEEpHxPi59WoRoQY"
   const multisigContractData: k8Config = {
     amount: multisigBalance.toFixed(),
     delegate: multisigDelegate,
