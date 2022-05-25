@@ -905,7 +905,7 @@
                     "prim": "Pair",
                     "args": [
                       {
-                        "string": "http://flashbake-baker-1.flashbake-baker:11732/flashbake/bundle"
+                        "string": "http://flashbake-endpoint-1.:11732/flashbake/bundle"
                       },
                       {
                         "int": "1000000"
@@ -924,7 +924,7 @@
                     "prim": "Pair",
                     "args": [
                       {
-                        "string": "http://flashbake-baker-0.flashbake-baker:11732/flashbake/bundle"
+                        "string": "http://flashbake-endpoint-0:11732/flashbake/bundle"
                       },
                       {
                         "int": "1000000"
